@@ -29,7 +29,7 @@ func (c rabbitConsumer) Consume() error {
 
 	connectionString := fmt.Sprintf("amqp://%s:%s@%s:%d", c.username, c.password, c.host, c.port)
 	conn := getConnectionInstance("test", connectionString)
-	err := conn.Connect(closedEvent)
+	err := conn.Connect(consumingInterrupted)
 
 	if err != nil {
 		failOnError(err, "Failed to connect to RabbitMQ")
