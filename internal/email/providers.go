@@ -2,70 +2,41 @@ package sender
 
 import (
 	"fmt"
-	"net/smtp"
 
 	"github.com/albb-b2b/push2b/pkg"
 )
 
-type googleSender struct {
-	outlookSender
-	identity string
+//This struct is used to deserialize the payload of works routed to special sender.
+type payload struct {
+	To      []string `json:"to"`
+	CC      []string `json:"cc"`
+	Bcc     []string `json:"bcc"`
+	Body    string   `json:"body"`
+	Subject string   `json:"subject"`
 }
 
-type outlookSender struct {
-	host     string
-	port     int
-	username string
-	password string
-	from     string
+//instanciates an email sender based on this Outlook smtp server.
+func NewOutlookSender(config pkg.OutlookConfig) Sender {
+	return &outlookSender{config.Host, config.Port, config.Username, config.Password, config.Username}
 }
 
-func NewGoogleSender(host string, port int, username string, password string, identity string, from string) Sender {
+//instanciates a sender based on the Gmail smtp server.
+func NewGoogleSender(config pkg.GmailConfig) Sender {
 	sender := googleSender{}
-	sender.host = host
-	sender.port = port
-	sender.username = username
-	sender.password = password
-	sender.from = from
+	sender.host = config.Host
+	sender.port = config.Port
+	sender.username = config.Username
+	sender.password = config.Password
+	sender.from = config.Username
 
 	return &sender
 }
 
-func (google googleSender) Process(work pkg.Work) error {
-	to := make([]string, 0)
-	to = append(to, "solhi.amir1371@gmail.com")
-
-	return google.Send("subject", work.Payload, to, nil, nil)
-}
-
-func (google googleSender) Send(subject string, body string, to []string, cc []string, bcc []string) error {
-	auth := smtp.PlainAuth(google.identity, google.username, google.password, google.host)
-
-	e := smtp.SendMail(fmt.Sprintf("%s:%d", google.host, google.port), auth, google.username, to, []byte(body))
-	if e != nil {
-		fmt.Print(e)
-	}
-	return nil
-}
-
-func NewOutlookSender(host string, port int, username string, password string, from string) Sender {
-	return &outlookSender{host, port, username, password, from}
-}
-
-func (outlook outlookSender) Process(work pkg.Work) error {
-	to := make([]string, 0)
-	to = append(to, "a.solhi@alibaba.ir")
-
-	return outlook.Send("subject", work.Payload, to, nil, nil)
-}
-
-func (outlook outlookSender) Send(subject string, body string, to []string, cc []string, bcc []string) error {
-
-	auth := loginAuthfn("", outlook.username, outlook.password, outlook.host)
-
-	e := smtp.SendMail(fmt.Sprintf("%s:%d", outlook.host, outlook.port), auth, outlook.username, to, []byte(body))
-	if e != nil {
-		fmt.Print(e)
-	}
-	return nil
+//The msg parameter for sending email should be an RFC 822-style email with headers-first,
+//a blank line, and then the message body. The lines of msg should be CRLF terminated.
+//The msg headers should usuallyinclude fields such as "From", "To", "Subject", and "Cc".
+//Sending "Bcc" messages is accomplished by including an email address in the to
+//parameter but not including it in the msg headers.
+func formatRfc822(to string, body string, subject string) string {
+	return fmt.Sprintf("To: %s\r\nSubject: %s\r\n\r\n%s\r\n", to, subject, body)
 }
