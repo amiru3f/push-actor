@@ -1,4 +1,4 @@
-//Package consumer is related to all of consuming behaviours.
+//Package consume is related to all of consuming behaviours.
 //for instance it consumes rabbit, receives jobs and uses dispatcher to route.
 package consume
 
