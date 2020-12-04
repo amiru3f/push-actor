@@ -14,6 +14,8 @@ import (
 func main() {
 
 	conf := initConf()
+	fillDefaultConfiguratiosn(&conf)
+
 	dispatcher := dispatch.NewInMemoryDispatcher()
 
 	dispatcher.AddListener(pkg.MAIL_GMAIL, sender.NewGoogleSender(conf.GmailConfig))
@@ -48,4 +50,11 @@ func initConf() pkg.Config {
 	}
 
 	return cfg
+}
+
+func fillDefaultConfiguratiosn(cfg *pkg.Config) {
+
+	if cfg.RabbitConfig.RetrySeconds <= 0 || cfg.RabbitConfig.RetrySeconds > 10 {
+		cfg.RabbitConfig.RetrySeconds = 1
+	}
 }

@@ -4,6 +4,7 @@ rabbit:
   port: 5672
   username: "user"
   password: "bitnami"
+  retrySeconds: 2
 
 # Database credentials
 database:

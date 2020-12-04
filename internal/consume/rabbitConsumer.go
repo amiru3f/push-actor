@@ -3,16 +3,14 @@ package consume
 import (
 	"errors"
 	"fmt"
+	"time"
 
 	"github.com/albb-b2b/push2b/internal/dispatch"
 	"github.com/albb-b2b/push2b/pkg"
 )
 
 type rabbitConsumer struct {
-	host       string
-	port       int
-	username   string
-	password   string
+	config     pkg.RabbitConfig
 	dispatcher dispatch.Dispatcher
 }
 
@@ -22,12 +20,20 @@ func NewRabbitConsumer(config pkg.RabbitConfig, dispatcher dispatch.Dispatcher) 
 		panic("dispatcher can not be nil")
 	}
 
-	return &rabbitConsumer{config.Host, config.Port, config.User, config.Password, dispatcher}
+	return &rabbitConsumer{config, dispatcher}
 }
 
 func (c rabbitConsumer) Consume() error {
 
-	connectionString := fmt.Sprintf("amqp://%s:%s@%s:%d", c.username, c.password, c.host, c.port)
+	//topology and connection recovery
+	//this will be called after connection break or connection refuse.
+	defer func() {
+		count := time.Duration(c.config.RetrySeconds)
+		time.Sleep(time.Second * count)
+		c.Consume()
+	}()
+
+	connectionString := fmt.Sprintf("amqp://%s:%s@%s:%d", c.config.User, c.config.Password, c.config.Host, c.config.Port)
 	conn := getConnectionInstance("test", connectionString)
 	err := conn.Connect(consumingInterrupted)
 
@@ -94,7 +100,5 @@ func (c rabbitConsumer) Consume() error {
 		forever <- errors.New("connection/channel closed")
 	}()
 
-	//topology and connection recovery
-	defer c.Consume()
 	return <-forever
 }

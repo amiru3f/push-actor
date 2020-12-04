@@ -27,8 +27,9 @@ type OutlookConfig struct {
 }
 
 type RabbitConfig struct {
-	Port     int    `yaml:"port"`
-	Host     string `yaml:"host"`
-	User     string `yaml:"username"`
-	Password string `yaml:"password"`
+	Port         int    `yaml:"port"`
+	Host         string `yaml:"host"`
+	User         string `yaml:"username"`
+	Password     string `yaml:"password"`
+	RetrySeconds int    `yaml:"retrySeconds"`
 }
