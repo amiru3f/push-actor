@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/albb-b2b/push2b/internal/consume"
-	"github.com/albb-b2b/push2b/internal/dispatch"
-	sender "github.com/albb-b2b/push2b/internal/email"
-	"github.com/albb-b2b/push2b/pkg"
+	"git.alibaba.ir/b2b/back/push2b/internal/consume"
+	"git.alibaba.ir/b2b/back/push2b/internal/dispatch"
+	sender "git.alibaba.ir/b2b/back/push2b/internal/email"
+	"git.alibaba.ir/b2b/back/push2b/pkg"
 	"gopkg.in/yaml.v2"
 )
 

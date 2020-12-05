@@ -2,7 +2,7 @@
 //There will be some standard formatters for email contents eg: formatrfc822
 package sender
 
-import "github.com/albb-b2b/push2b/pkg"
+import "git.alibaba.ir/b2b/back/push2b/pkg"
 
 //many types of senders can be written in the internal package.
 //currently there are two email-senders! (gmail, outlook)

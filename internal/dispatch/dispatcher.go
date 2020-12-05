@@ -1,7 +1,7 @@
 //all of system incomming work/jobs are routed here to avaialble executers.
 package dispatch
 
-import "github.com/albb-b2b/push2b/pkg"
+import "git.alibaba.ir/b2b/back/push2b/pkg"
 
 //may have many implementations based on environment.
 //eg: InMemoryDispatcher

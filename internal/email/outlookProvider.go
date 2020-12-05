@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"net/smtp"
 
-	"github.com/albb-b2b/push2b/pkg"
+	"git.alibaba.ir/b2b/back/push2b/pkg"
 )
 
 type outlookSender struct {

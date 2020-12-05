@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/albb-b2b/push2b/internal/dispatch"
-	"github.com/albb-b2b/push2b/pkg"
+	"git.alibaba.ir/b2b/back/push2b/internal/dispatch"
+	"git.alibaba.ir/b2b/back/push2b/pkg"
 )
 
 type rabbitConsumer struct {

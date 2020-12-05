@@ -4,7 +4,7 @@ import (
 	"log"
 	"strings"
 
-	"github.com/albb-b2b/push2b/pkg"
+	"git.alibaba.ir/b2b/back/push2b/pkg"
 )
 
 //a simple dispather that routes incoming works to each listener stored on memory

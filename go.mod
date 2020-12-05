@@ -1,4 +1,4 @@
-module github.com/albb-b2b/push2b
+module git.alibaba.ir/b2b/back/push2b
 
 go 1.15
 
