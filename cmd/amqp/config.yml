@@ -15,10 +15,10 @@ gmailSender:
   host: "smtp.gmail.com"
   port: 587
   username: "solhi.amir1371@gmail.com"
-  password: "tvtaeifhwbtddsag"
+  password: "tvtaeifhwbtddsag" #not working
 
 outlookSender:
   host: "smtp-mail.outlook.com"
   port: 587
   username: "test_smtp22@outlook.com"
-  password: "Mohsen0000"
+  password: ""
